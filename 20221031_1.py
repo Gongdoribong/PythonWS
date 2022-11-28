@@ -1,0 +1,1 @@
+#for loop 에서 '_'는 value = None
