@@ -1,0 +1,46 @@
+def dateCal(date, plus):
+    dateList = list(map(int, date.split(".")))
+    dateList[1] += plus
+    if(dateList[1]>12):
+        dateList[0] += dateList[1]//12
+        dateList[1] = dateList[1]%12
+        if(dateList[1] == 0):
+            dateList[0] -= 1
+            dateList[1] = 12
+
+    return dateList
+
+def dateCmp(exp, tdy):
+    for i in range(3):
+        if(exp[i] < tdy[i]):    #만료 일자가 지났으면
+            return True
+        elif(exp[i] == tdy[i]):
+            continue
+        else:   #만료 일자가 남았으면
+            return False
+
+    return True #날짜가 같으면 만료
+
+
+def solution(today, terms, privacies):
+    answer = []
+    dict = {}
+    todayList = list(map(int, today.split(".")))
+
+    for i in range(len(terms)):
+        terms[i] = terms[i].split(" ")
+        dict[terms[i][0]] = int(terms[i][1])
+
+    for i in range(len(privacies)):
+        privacies[i] = privacies[i].split(" ")
+        expiration = dateCal(privacies[i][0],dict[privacies[i][1]])
+        if(dateCmp(expiration, todayList)):
+            answer.append(i+1)
+
+    return answer
+
+today = "2020.01.01"
+terms = ["Z 3", "D 6"]
+privacies = ["2019.01.01 D", "2019.11.15 Z", "2019.08.02 D", "2019.07.01 D", "2018.12.28 Z"]
+
+print(solution(today, terms, privacies))
